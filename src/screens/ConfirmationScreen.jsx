@@ -1,5 +1,5 @@
 import headerLogo from '../assets/brand/logo-header.png'
-import { Link, Navigate, useLocation } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 
 const pad = (value) => String(value).padStart(2, '0')
 
@@ -38,12 +38,13 @@ const formatDisplayTime = (timeString) => {
   return `${twelveHour}:${pad(minutes)} ${meridiem}`
 }
 
-function ConfirmationScreen() {
+function ConfirmationScreen({ fallbackBooking = null }) {
+  const navigate = useNavigate()
   const location = useLocation()
-  const activityTitle = location.state?.activityTitle
-  const activityLocation = location.state?.activityLocation
-  const bookingDate = location.state?.bookingDate
-  const bookingTime = location.state?.bookingTime
+  const activityTitle = location.state?.activityTitle ?? fallbackBooking?.activityTitle
+  const activityLocation = location.state?.activityLocation ?? fallbackBooking?.activityLocation
+  const bookingDate = location.state?.bookingDate ?? fallbackBooking?.bookingDate
+  const bookingTime = location.state?.bookingTime ?? fallbackBooking?.bookingTime
 
   if (!activityTitle || !activityLocation || !bookingDate || !bookingTime) {
     return <Navigate to="/activities" replace />
@@ -67,6 +68,19 @@ function ConfirmationScreen() {
       'dates',
       `${formatCalendarDate(startDateTime)}/${formatCalendarDate(endDateTime)}`,
     )
+  }
+
+  const directionsUrl = new URL('https://www.google.com/maps/dir/')
+  directionsUrl.searchParams.set('api', '1')
+  directionsUrl.searchParams.set('destination', activityLocation)
+
+  const handleOpenDirections = () => {
+    const shouldOpenMaps = window.confirm('Would you like to open Maps on your phone?')
+    if (!shouldOpenMaps) {
+      return
+    }
+
+    window.open(directionsUrl.toString(), '_blank', 'noopener,noreferrer')
   }
 
   return (
@@ -101,6 +115,20 @@ function ConfirmationScreen() {
         >
           Add to Google Calendar
         </a>
+        <button
+          type="button"
+          className="confirmation-calendar-button confirmation-directions-button"
+          onClick={handleOpenDirections}
+        >
+          Get Directions
+        </button>
+        <button
+          type="button"
+          className="confirmation-calendar-button"
+          onClick={() => navigate(-1)}
+        >
+          Back to Activities
+        </button>
       </section>
     </main>
   )

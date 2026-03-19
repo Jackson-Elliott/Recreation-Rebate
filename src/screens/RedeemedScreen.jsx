@@ -9,10 +9,10 @@ function generateRedeemCode() {
   return Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
 }
 
-function RedeemedScreen() {
+function RedeemedScreen({ fallbackScreenTime = null }) {
   const navigate = useNavigate()
   const location = useLocation()
-  const screenTime = location.state?.screenTime
+  const screenTime = location.state?.screenTime ?? fallbackScreenTime
   const [redeemCode] = useState(() => generateRedeemCode())
 
   if (!screenTime) {

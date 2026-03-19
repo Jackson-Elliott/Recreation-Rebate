@@ -62,6 +62,7 @@ body {
   min-height: 100svh;
   background: var(--red);
   overflow: hidden;
+  position: relative;
 }
 
 .screen {
@@ -69,6 +70,98 @@ body {
   width: 100%;
   padding: 40px 28px;
   background: var(--red);
+}
+
+.stage-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  background: var(--red);
+  border-top: 2px solid rgba(255, 255, 255, 0.36);
+  padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+}
+
+.app-shell.footer-on-red-screen .stage-footer {
+  border-top-color: transparent;
+}
+
+.stage-footer-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+}
+
+.stage-footer-item {
+  min-width: auto;
+}
+
+.stage-footer-link {
+  display: grid;
+  justify-items: center;
+  gap: 0;
+  text-decoration: none;
+  color: var(--white);
+  padding: 2px 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.stage-footer-icon {
+  width: 34px;
+  height: 34px;
+  border: 2px solid rgba(255, 255, 255, 0.72);
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  color: var(--white);
+}
+
+.stage-footer-svg {
+  width: 16px;
+  height: 16px;
+}
+
+.stage-footer-svg path,
+.stage-footer-svg circle {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.stage-footer-link-active .stage-footer-icon {
+  background: var(--white);
+  border-color: var(--white);
+  color: var(--red);
+}
+
+.stage-footer-link-disabled {
+  opacity: 0.36;
+  cursor: not-allowed;
+}
+
+.app-shell.has-stage-footer .screen-upload {
+  padding-bottom: 118px;
+}
+
+.app-shell.has-stage-footer .redeemed-body {
+  padding-bottom: 96px;
+}
+
+.app-shell.has-stage-footer .activities-scroll {
+  padding-bottom: 122px;
+}
+
+.app-shell.has-stage-footer .confirmation-content {
+  padding-bottom: 114px;
 }
 
 .screen-loading {
@@ -278,7 +371,7 @@ body {
 .redeemed-body {
   display: grid;
   place-items: start center;
-  padding-top: 95px;
+  padding-top: 58px;
 }
 
 .ticket-card {
@@ -404,48 +497,83 @@ body {
 }
 
 .activities-summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   text-align: center;
-  padding: 24px 20px 18px;
+  white-space: nowrap;
+  padding: 12px 14px 11px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
   transition: filter 180ms ease;
   position: relative;
   overflow: hidden;
 }
 
-.activities-summary-label {
-  margin: 0;
-  font-size: 14px;
-  letter-spacing: 0.03em;
-  font-weight: 700;
+.activities-summary-clock {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--red);
+  border-radius: 999px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.activities-summary-clock::before {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 5px;
+  background: var(--red);
+  left: 50%;
+  top: 2px;
+  transform: translateX(-50%);
+}
+
+.activities-summary-clock::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 2px;
+  background: var(--red);
+  left: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  transform-origin: left center;
 }
 
 .activities-summary-time {
-  margin: 1px 0 0;
-  font-size: 46px;
-  line-height: 0.98;
-  letter-spacing: 0.01em;
-  font-weight: 900;
+  margin: 0;
+  font-size: 17px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  font-weight: 400;
   color: var(--red);
+  flex: 0 0 auto;
 }
 
 .activities-summary-location {
-  margin: 1px auto 0;
-  font-size: 14px;
+  margin: 0;
+  font-size: 17px;
   line-height: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 5px;
   font-weight: 400;
   width: fit-content;
-  max-width: 100%;
+  max-width: none;
+  flex: 0 0 auto;
 }
 
 .location-icon {
-  width: 10px;
-  height: 14px;
-  object-fit: contain;
-  mix-blend-mode: normal;
+  width: 18px;
+  height: 24px;
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
   flex: 0 0 auto;
 }
 
@@ -694,6 +822,30 @@ body {
   touch-action: manipulation;
 }
 
+.activity-booking-field input[type='date'] {
+  display: block;
+  min-width: 0;
+  position: relative;
+  text-align: left;
+  padding-right: 44px;
+}
+
+.activity-booking-field input[type='date']::-webkit-datetime-edit {
+  padding-right: 2px;
+}
+
+.activity-booking-field input[type='date']::-webkit-calendar-picker-indicator {
+  display: block;
+  opacity: 1;
+  cursor: pointer;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+  padding: 0;
+}
+
 .activity-booking-field select {
   appearance: none;
   -webkit-appearance: none;
@@ -814,11 +966,14 @@ body {
   min-height: 43px;
   border-radius: 999px;
   border: 3px solid var(--white);
+  background: transparent;
   color: var(--white);
+  font-family: inherit;
   text-decoration: none;
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.01em;
+  cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
@@ -834,6 +989,10 @@ body {
 .confirmation-calendar-button:focus-visible {
   outline: 3px solid var(--white);
   outline-offset: 3px;
+}
+
+.confirmation-directions-button {
+  padding: 0;
 }
 
 .sr-only {
@@ -904,6 +1063,28 @@ body {
     min-height: 390px;
   }
 
+  .stage-footer {
+    padding: 7px 8px calc(7px + env(safe-area-inset-bottom));
+  }
+
+  .stage-footer-list {
+    gap: 60px;
+  }
+
+  .stage-footer-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .stage-footer-svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .redeemed-body {
+    padding-top: 54px;
+  }
+
   .ticket-content {
     padding-top: 42px;
   }
@@ -935,19 +1116,29 @@ body {
   }
 
   .activities-summary {
-    padding-top: 20px;
+    gap: 8px;
+    padding: 10px 10px 9px;
   }
 
-  .activities-summary-label {
-    font-size: 12px;
+  .activities-summary-clock {
+    width: 12px;
+    height: 12px;
+    border-width: 1.8px;
   }
 
   .activities-summary-time {
-    font-size: 38px;
+    font-size: 17px;
   }
 
   .activities-summary-location {
-    font-size: 12px;
+    font-size: 17px;
+    gap: 4px;
+  }
+
+  .location-icon {
+    width: 16px;
+    height: 20px;
+    stroke-width: 1.8;
   }
 
   .activities-scroll {
@@ -1026,6 +1217,22 @@ body {
     margin-top: 16px;
   }
 
+  .app-shell.has-stage-footer .screen-upload {
+    padding-bottom: 108px;
+  }
+
+  .app-shell.has-stage-footer .redeemed-body {
+    padding-bottom: 88px;
+  }
+
+  .app-shell.has-stage-footer .activities-scroll {
+    padding-bottom: 114px;
+  }
+
+  .app-shell.has-stage-footer .confirmation-content {
+    padding-bottom: 106px;
+  }
+
   .confirmation-content {
     gap: 16px;
     padding: 18px 18px 28px;
@@ -1042,5 +1249,35 @@ body {
 
   .confirmation-value {
     font-size: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  html,
+  body,
+  #root {
+    height: 100dvh;
+    min-height: 100dvh;
+    overflow: hidden;
+    overscroll-behavior-y: none;
+  }
+
+  body {
+    background: var(--red);
+  }
+
+  .app-shell {
+    height: 100dvh;
+    min-height: 100dvh;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  .screen {
+    min-height: 100%;
+  }
+
+  .activities-scroll {
+    overscroll-behavior-y: contain;
   }
 }

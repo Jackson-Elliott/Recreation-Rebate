@@ -26,7 +26,6 @@ import whiteWaterRaftingIcon from '../assets/activities/icon-whitewater-rafting.
 import windSurfingIcon from '../assets/activities/icon-wind-surfing.png'
 import yogaWellnessIcon from '../assets/activities/icon-yoga-wellness.png'
 import headerLogo from '../assets/brand/logo-header.png'
-import locationPin from '../assets/brand/location-pin.png'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 
 const hikingDescription =
@@ -1184,10 +1183,14 @@ const melbourneActivities = [
 ]
 
 const halfHourTimeOptions = Array.from({ length: 48 }, (_, index) => {
-  const hours = String(Math.floor(index / 2)).padStart(2, '0')
+  const hour24 = Math.floor(index / 2)
+  const hours = String(hour24).padStart(2, '0')
   const minutes = index % 2 === 0 ? '00' : '30'
   const value = `${hours}:${minutes}`
-  return { value, label: value }
+  const suffix = hour24 >= 12 ? 'PM' : 'AM'
+  const hour12 = hour24 % 12 === 0 ? 12 : hour24 % 12
+  const label = `${hour12}:${minutes} ${suffix}`
+  return { value, label }
 })
 
 const iconByCategory = {
@@ -1286,10 +1289,10 @@ const recreationTimeToMinutes = (screenTime) => {
   return hours * 60 + minutes
 }
 
-function ActivitiesScreen() {
+function ActivitiesScreen({ fallbackScreenTime = null }) {
   const navigate = useNavigate()
   const location = useLocation()
-  const screenTime = location.state?.screenTime
+  const screenTime = location.state?.screenTime ?? fallbackScreenTime
   const bookingDateInputRef = useRef(null)
   const [userLocation, setUserLocation] = useState('Sydney')
   const [activeActivity, setActiveActivity] = useState(null)
@@ -1394,6 +1397,7 @@ function ActivitiesScreen() {
         activityLocation: activeActivity.location,
         bookingDate,
         bookingTime,
+        screenTime,
       },
     })
   }
@@ -1430,12 +1434,15 @@ function ActivitiesScreen() {
         </div>
 
         <div className="activities-summary">
-          <p className="activities-summary-label">YOUR RECREATION TIME</p>
-          <h2 className="activities-summary-time">
-            {screenTime.hours}h&nbsp;{screenTime.minutes}m
-          </h2>
+          <span className="activities-summary-clock" aria-hidden="true" />
+          <p className="activities-summary-time">
+            {screenTime.hours}H&nbsp;{screenTime.minutes}M
+          </p>
           <p className="activities-summary-location">
-            <img className="location-icon" src={locationPin} alt="" aria-hidden="true" />
+            <svg viewBox="0 0 24 24" className="location-icon" aria-hidden="true">
+              <path d="M12 20s5-4.6 5-8.2A5 5 0 0 0 7 11.8C7 15.4 12 20 12 20Z" />
+              <circle cx="12" cy="11" r="1.6" />
+            </svg>
             <span className="location-name">{userLocation.toUpperCase()}</span>
           </p>
         </div>
@@ -1514,6 +1521,7 @@ function ActivitiesScreen() {
                   <input
                     ref={bookingDateInputRef}
                     type="date"
+                    lang="en-GB"
                     value={bookingDate}
                     onClick={openDatePicker}
                     onFocus={(event) => {
