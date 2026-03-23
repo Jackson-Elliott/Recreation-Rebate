@@ -1135,7 +1135,7 @@ body {
   .ticket-button {
     width: 55vw;
     height: 44px;
-    font-size: 5.4vw;
+    font-size: 3.5vw;
   }
 
   .activities-summary {
@@ -1228,7 +1228,7 @@ body {
   }
 
   .activity-booking-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 12px;
   }
 
