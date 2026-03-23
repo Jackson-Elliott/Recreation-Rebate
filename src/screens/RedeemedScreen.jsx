@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import headerLogo from '../assets/brand/logo-header.png'
 import brandIcon from '../assets/brand/logo-redeemed-red-clean.png'
-import ticketBackground from '../assets/brand/ticket-redeemed.png'
+import ticketBackground from '../assets/brand/ticket-redeemed.svg'
 
 function generateRedeemCode() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
