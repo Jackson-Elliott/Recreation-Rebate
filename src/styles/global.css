@@ -344,10 +344,10 @@ body {
 
 .redeemed-header {
   background: var(--red);
-  min-height: 151px;
+  min-height: 112px;
   display: grid;
   place-items: center;
-  padding-top: 28px;
+  padding-top: 10px;
 }
 
 .brand-lockup-small .brand-top {
@@ -496,10 +496,10 @@ body {
 
 .activities-topbar {
   background: var(--red);
-  min-height: 152px;
+  min-height: 112px;
   display: grid;
   place-items: center;
-  padding-top: 18px;
+  padding-top: 10px;
 }
 
 .activities-summary {
@@ -930,10 +930,10 @@ body {
 }
 
 .confirmation-header {
-  min-height: 152px;
+  min-height: 112px;
   display: grid;
   place-items: center;
-  padding-top: 18px;
+  padding-top: 10px;
 }
 
 .confirmation-content {
@@ -1081,8 +1081,8 @@ body {
   }
 
   .ticket-card {
-    width: 84.5%;
-    min-height: 390px;
+    width: 88%;
+    min-height: 470px;
   }
 
   .stage-footer {
@@ -1229,16 +1229,28 @@ body {
 
   .activity-booking-grid {
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 12px;
   }
 
   .activity-booking-field {
-    gap: 7px;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #6f6f6f;
+  }
+
+  .activity-booking-field input,
+  .activity-booking-field select {
+    height: 52px;
+    border-radius: 14px;
+    border-width: 3px;
+    font-size: 17px;
+    padding-inline: 12px;
   }
 
   .activity-booking-field input[type='date'] {
     line-height: normal;
-    padding-right: 40px;
+    padding-right: 44px;
   }
 
   .activity-booking-field input[type='date']::-webkit-datetime-edit {
@@ -1255,11 +1267,25 @@ body {
   .activity-booking-field input[type='date']::-webkit-calendar-picker-indicator {
     position: static;
     transform: none;
-    margin: 0 0 0 6px;
+    margin: 0 0 0 8px;
+  }
+
+  .activity-booking-field select {
+    background-position:
+      calc(100% - 16px) 22px,
+      calc(100% - 10px) 22px;
+    background-size:
+      6px 6px,
+      6px 6px;
+    padding-right: 28px;
   }
 
   .activity-popup-book {
-    margin-top: 16px;
+    margin-top: 18px;
+    width: min(100%, 270px);
+    height: 50px;
+    border-radius: 999px;
+    font-size: 16px;
   }
 
   .app-shell.has-stage-footer .screen-upload {
